@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.0](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.5.0...v0.6.0) (2025-05-22)
+
+
+### Features
+
+* Set lowercase owner name for Docker image tagging ([18eb7b7](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/18eb7b79a37f789bae2e90ef294ea1a50f1988ca))
+
+
+### Bug Fixes
+
+* **ci:** rename dryrun pipeline ([81ecc35](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/81ecc353c4753b20d6e60d313ad5aa0e169c7a7f))
+* Use output from owner-name step for Docker image tags ([6685f6a](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/6685f6a1f68222de62b23b075b9f47d5d944de6a))
+
 ## [0.5.0](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.4.0...v0.5.0) (2025-05-22)
 
 
