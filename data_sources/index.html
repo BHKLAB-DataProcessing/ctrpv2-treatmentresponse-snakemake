@@ -50,19 +50,31 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Data Sources</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#how-to-document-your-data">How to Document Your Data</a>
+    <li class="toctree-l2"><a class="reference internal" href="#cancer-therapeutics-response-portal-ctrp-dataset">Cancer Therapeutics Response Portal (CTRP) Dataset</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#1-external-data-sources">1. External Data Sources</a>
+    <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#2-internalgenerated-data">2. Internal/Generated Data</a>
+    <li class="toctree-l3"><a class="reference internal" href="#external-data-sources">External Data Sources</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#cell-line-information">Cell Line Information</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#3-data-dictionary">3. Data Dictionary</a>
+    <li class="toctree-l4"><a class="reference internal" href="#treatment-information">Treatment Information</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#drug-response-data">Drug Response Data</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a>
+    <li class="toctree-l3"><a class="reference internal" href="#processed-data">Processed Data</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#sample-metadata-ctrpv20_samplemetadatatsv">Sample Metadata (CTRPv2.0_sampleMetadata.tsv)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#treatment-metadata-ctrpv20_treatmentmetadatatsv">Treatment Metadata (CTRPv2.0_treatmentMetadata.tsv)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#treatment-response-raw">Treatment Response: Raw</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
     </li>
     </ul>
                 </li>
@@ -96,95 +108,215 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="data-sources">Data Sources</h1>
-<h2 id="overview">Overview</h2>
-<p>This section should document all data sources used in your project.
-Proper documentation ensures reproducibility and helps others
-understand your research methodology.</p>
-<h2 id="how-to-document-your-data">How to Document Your Data</h2>
-<p>For each data source, include the following information:</p>
-<h3 id="1-external-data-sources">1. External Data Sources</h3>
+<h2 id="cancer-therapeutics-response-portal-ctrp-dataset">Cancer Therapeutics Response Portal (CTRP) Dataset</h2>
+<h3 id="overview">Overview</h3>
+<p>The Cancer Therapeutics Response Portal (CTRP) is a public resource providing information about the response of cancer cell lines to small-molecule probes and drugs. This project focuses specifically on CTRPv2.0, which includes a comprehensive dataset of drug sensitivity measurements across numerous cancer cell lines.</p>
+<h3 id="external-data-sources">External Data Sources</h3>
+<h4 id="cell-line-information">Cell Line Information</h4>
 <ul>
-<li><strong>Name</strong>: Official name of the dataset</li>
-<li><strong>Version/Date</strong>: Version number or access date</li>
-<li><strong>URL</strong>: Link to the data source</li>
-<li><strong>Access Method</strong>: How the data was obtained (direct download, API, etc.)</li>
-<li><strong>Access Date</strong>: When the data was accessed/retrieved</li>
-<li><strong>Data Format</strong>: Format of the data (FASTQ, DICOM, CSV, etc.)</li>
-<li><strong>Citation</strong>: Proper academic citation if applicable</li>
-<li><strong>License</strong>: Usage restrictions and attribution requirements</li>
+<li><strong>Name</strong>: CTRP Cell Line Information</li>
+<li><strong>Version/Date</strong>: CTRPv2.0</li>
+<li><strong>URL</strong>: https://ctd2-data.nci.nih.gov/Public/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/</li>
+<li><strong>Access Method</strong>: Direct download</li>
+<li><strong>Data Format</strong>: Tab-separated values (TSV)</li>
+<li><strong>Citation</strong>: Seashore-Ludlow, B., Rees, M.G., Cheah, J.H., et al. (2015). Harnessing Connectivity in a Large-Scale Small-Molecule Sensitivity Dataset. Cancer Discovery, 5(11), 1210-1223. https://doi.org/10.1158/2159-8290.CD-15-0235</li>
+<li><strong>License</strong>: <a href="https://ctd2-data.nci.nih.gov/Public/termsofuse/">CTD² Data Portal Terms of Use</a></li>
 </ul>
-<p>Example:</p>
-<pre><code class="language-markdown">## TCGA RNA-Seq Data
-
-- **Name**: The Cancer Genome Atlas RNA-Seq Data
-- **Version**: Data release 28.0 - March 2021
-- **URL**: https://portal.gdc.cancer.gov/
-- **Access Method**: GDC Data Transfer Tool
-- **Access Date**: 2021-03-15
-- **Citation**: The Cancer Genome Atlas Network. (2012). Comprehensive molecular portraits of human breast tumours. Nature, 490(7418), 61-70.
-- **License**: [NIH Genomic Data Sharing Policy](https://sharing.nih.gov/genomic-data-sharing-policy)
-</code></pre>
-<h3 id="2-internalgenerated-data">2. Internal/Generated Data</h3>
+<h4 id="treatment-information">Treatment Information</h4>
 <ul>
-<li><strong>Name</strong>: Descriptive name of the dataset</li>
-<li><strong>Creation Date</strong>: When the data was generated</li>
-<li><strong>Creation Method</strong>: Brief description of how the data was created</li>
-<li><strong>Input Data</strong>: What source data was used</li>
-<li><strong>Processing Scripts</strong>: References to scripts/Github Repo used to generate this data</li>
+<li><strong>Name</strong>: CTRP Compound Information</li>
+<li><strong>Version/Date</strong>: CTRPv2.0</li>
+<li><strong>URL</strong>: https://ctd2-data.nci.nih.gov/Public/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/</li>
+<li><strong>Access Method</strong>: Direct download</li>
+<li><strong>Data Format</strong>: Tab-separated values (TSV)</li>
+<li><strong>Citation</strong>: Same as cell line information</li>
+<li><strong>License</strong>: <a href="https://ctd2-data.nci.nih.gov/Public/termsofuse/">CTD² Data Portal Terms of Use</a></li>
 </ul>
-<p>Example:</p>
-<pre><code class="language-markdown">## Processed RNA-Seq Data
-- **Name**: Processed RNA-Seq Data for TCGA-BRCA
-- **Creation Date**: 2021-04-01
-- **Creation Method**: Processed using kallisto and DESeq2
-- **Input Data**: FASTQ Data obtained from the SRA database
-- **Processing Scripts**: [GitHub Repo](https://github.com/tcga-brca-rnaseq)
-</code></pre>
-<h3 id="3-data-dictionary">3. Data Dictionary</h3>
-<p>For complex datasets, include a data dictionary that explains:</p>
+<h4 id="drug-response-data">Drug Response Data</h4>
+<ul>
+<li><strong>Name</strong>: CTRP Drug Sensitivity Data</li>
+<li><strong>Version/Date</strong>: CTRPv2.0</li>
+<li><strong>URL</strong>: https://ctd2-data.nci.nih.gov/Public/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/</li>
+<li><strong>Access Method</strong>: Direct download</li>
+<li><strong>Data Format</strong>: Tab-separated values (TSV)</li>
+<li><strong>Citation</strong>: Same as cell line information</li>
+<li><strong>License</strong>: <a href="https://ctd2-data.nci.nih.gov/Public/termsofuse/">CTD² Data Portal Terms of Use</a></li>
+</ul>
+<h3 id="processed-data">Processed Data</h3>
+<h4 id="sample-metadata-ctrpv20_samplemetadatatsv">Sample Metadata (CTRPv2.0_sampleMetadata.tsv)</h4>
+<ul>
+<li><strong>Name</strong>: Preprocessed Sample Metadata</li>
+<li><strong>Input Data</strong>: CTRP Cell Line Information</li>
+<li><strong>Processing Scripts</strong>: <code>workflow/scripts/R/preprocessMetadata.R</code></li>
+<li><strong>Output Location</strong>: <code>metadata/CTRPv2.0_sampleMetadata.tsv</code></li>
+</ul>
 <table>
 <thead>
 <tr>
 <th>Column Name</th>
-<th>Data Type</th>
 <th>Description</th>
-<th>Units</th>
-<th>Possible Values</th>
+<th>Example Values</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>patient_id</td>
-<td>string</td>
-<td>Unique patient identifier</td>
-<td>N/A</td>
-<td>TCGA-XX-XXXX format</td>
+<td>sampleid</td>
+<td>Unique identifier for the cell line</td>
+<td>697, 5637, 2313287</td>
 </tr>
 <tr>
-<td>age</td>
-<td>integer</td>
-<td>Patient age at diagnosis</td>
-<td>years</td>
-<td>18-100</td>
+<td>tissueid</td>
+<td>Tissue of origin</td>
+<td>haematopoietic_and_lymphoid_tissue, urinary_tract</td>
 </tr>
 <tr>
-<td>expression</td>
-<td>float</td>
-<td>Gene expression value</td>
-<td>TPM</td>
-<td>Any positive value</td>
+<td>master_ccl_id</td>
+<td>Master cell line identifier</td>
+<td>1, 3, 4</td>
+</tr>
+<tr>
+<td>sample_availability</td>
+<td>Where the sample is available</td>
+<td>ccle;public, ccle</td>
+</tr>
+<tr>
+<td>ccle_primary_hist</td>
+<td>Primary histology</td>
+<td>lymphoid_neoplasm, carcinoma, glioma</td>
 </tr>
 </tbody>
 </table>
-<h2 id="best-practices">Best Practices</h2>
+<h4 id="treatment-metadata-ctrpv20_treatmentmetadatatsv">Treatment Metadata (CTRPv2.0_treatmentMetadata.tsv)</h4>
 <ul>
-<li>Store raw data in <code>data/rawdata/</code> and never modify it</li>
-<li>Store processed data in <code>data/procdata/</code> and all code used to generate it should be in <code>workflow/scripts/</code></li>
-<li>Document all processing steps</li>
-<li>Track data provenance (where data came from and how it was modified)</li>
-<li>Respect data usage agreements and licenses!
-    This is especially important for data that should not be shared publicly</li>
+<li><strong>Name</strong>: Preprocessed Treatment Metadata</li>
+<li><strong>Input Data</strong>: CTRP Compound Information</li>
+<li><strong>Processing Scripts</strong>: <code>workflow/scripts/R/preprocessMetadata.R</code></li>
+<li><strong>Output Location</strong>: <code>metadata/CTRPv2.0_treatmentMetadata.tsv</code></li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>Column Name</th>
+<th>Description</th>
+<th>Example Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>master_cpd_id</td>
+<td>Master compound identifier</td>
+<td>1788, 3588, 12877</td>
+</tr>
+<tr>
+<td>cpd_name</td>
+<td>Compound name</td>
+<td>CIL55, BRD4132, BRD6340</td>
+</tr>
+<tr>
+<td>broad_cpd_id</td>
+<td>Broad Institute compound identifier</td>
+<td>BRD-K46556387, BRD-K86574132, BRD-K35716340</td>
+</tr>
+<tr>
+<td>top_test_conc_umol</td>
+<td>Top test concentration in μM</td>
+<td>10, 160, 33</td>
+</tr>
+<tr>
+<td>cpd_status</td>
+<td>Compound status (probe, FDA)</td>
+<td>probe, FDA</td>
+</tr>
+<tr>
+<td>inclusion_rationale</td>
+<td>Rationale for inclusion in the study</td>
+<td>pilot-set, chromatin;pilot-set</td>
+</tr>
+<tr>
+<td>gene_symbol_of_protein_target</td>
+<td>Gene symbol for protein target</td>
+<td>S1PR3, BAX, RARA;RARB;RARG</td>
+</tr>
+<tr>
+<td>target_or_activity_of_compound</td>
+<td>Target or activity description</td>
+<td>agonist of sphingosine 1-phosphate receptor 3</td>
+</tr>
+<tr>
+<td>source_name</td>
+<td>Source of the compound</td>
+<td>Columbia University, ChemDiv Inc., Enamine Ltd.</td>
+</tr>
+<tr>
+<td>source_catalog_id</td>
+<td>Catalog identifier from source</td>
+<td>4998-1380, 1988-0090</td>
+</tr>
+<tr>
+<td>cpd_smiles</td>
+<td>SMILES chemical notation</td>
+<td>Chemical structure in SMILES format</td>
+</tr>
+<tr>
+<td>treatmentid</td>
+<td>Standardized treatment ID</td>
+<td>CIL55, BRD4132, BRD6340</td>
+</tr>
+</tbody>
+</table>
+<h4 id="treatment-response-raw">Treatment Response: Raw</h4>
+<ul>
+<li><strong>Name</strong>: Preprocessed Raw Treatment Response</li>
+<li><strong>Input Data</strong>: CTRP Drug Sensitivity Data</li>
+<li><strong>Processing Scripts</strong>: <code>workflow/scripts/R/preprocessTreatmentResponse.R</code></li>
+<li><strong>Output Location</strong>: <code>data/procdata/CTRPv2.0_preprocessed_TreatmentResponse_raw.csv</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Column Name</th>
+<th>Description</th>
+<th>Units/Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sampleid</td>
+<td>Cell line identifier</td>
+<td>Same as <code>sampleid</code> in metadata</td>
+</tr>
+<tr>
+<td>culture_media</td>
+<td>Culture media used</td>
+<td>DMEM001, RPMI001, etc.</td>
+</tr>
+<tr>
+<td>treatmentid</td>
+<td>Drug identifier</td>
+<td>Same as <code>treatmentid</code> in metadata</td>
+</tr>
+<tr>
+<td>experiment_id</td>
+<td>Experiment identifier</td>
+<td>Numerical identifier for experiment</td>
+</tr>
+<tr>
+<td>dose</td>
+<td>Drug concentration</td>
+<td>μM (micromolar)</td>
+</tr>
+<tr>
+<td>viability</td>
+<td>Cell viability at given dose</td>
+<td>Percentage, values relative to control</td>
+</tr>
+<tr>
+<td>tech_rep</td>
+<td>Technical replicate number</td>
+<td>1, 2, 3, etc.</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div><footer>
