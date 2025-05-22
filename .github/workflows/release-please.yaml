@@ -65,11 +65,10 @@ jobs:
               id: owner-name
               run: |
                   echo "OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+
             - name: Build and push Docker image
               id: docker-build
               uses: docker/build-push-action@v6
-              env:
-                  OWNER_LC: ${{ env.OWNER_LC }}
               with:
                   # Docker build context (current repo)
                   context: .
@@ -89,8 +88,8 @@ jobs:
                   cache-to: type=gha,mode=max
                   # Image tags to push
                   tags: |
-                      ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}:${{ needs.release-please.outputs.tag_name }}
-                      ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}:latest
+                      ghcr.io/${{ steps.owner-name.outputs.OWNER_LC }}/${{ github.event.repository.name }}:${{ needs.release-please.outputs.tag_name }}
+                      ghcr.io/${{ steps.owner-name.outputs.OWNER_LC }}/${{ github.event.repository.name }}:latest
 
     run-pipeline:
         needs: [release-please, build-docker]
