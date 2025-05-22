@@ -1,4 +1,4 @@
-name: Run Pipeline
+name: Dry Run Pipeline to Make Sure It Works
 
 on:
     push:
@@ -19,7 +19,6 @@ jobs:
         steps:
             - uses: actions/checkout@v4
               with:
-                  # Full history for tags
                   fetch-depth: 0
 
             - name: Run PharmacoSet Pipeline
@@ -27,3 +26,4 @@ jobs:
               with:
                   artifact-name: CTRP-TreatmentResponseExperiment
                   result-path: data/results/CTRPv2.0_treatmentResponseExperiment.RDS
+

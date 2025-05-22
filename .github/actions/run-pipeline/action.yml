@@ -18,6 +18,10 @@ inputs:
         description: "Version of Apptainer to use"
         required: false
         default: "1.3.6"
+    dryrun:
+        description: "Whether to run the pipeline in dry-run mode"
+        required: false
+        default: "false"
 
 runs:
     using: "composite"
@@ -44,9 +48,9 @@ runs:
               locked: true
               activate-environment: true
 
-        - name: Run Snakemake
+        - name: Run Snakemake Pipeline
           shell: bash
-          run: pixi run pipeline
+          run: pixi run pipeline ${{ inputs.dryrun == 'true' && '--dry-run' || '' }}
 
         - name: Upload assets as workflow artifact
           uses: actions/upload-artifact@v4
@@ -61,6 +65,8 @@ runs:
               files: ${{ inputs.result-path }}
               draft: false
               prerelease: false
+              generate_release_notes: false
+              append_body: true
 
         - name: Upload to GitHub Release (explicit release)
           if: ${{ inputs.release-tag != '' }}
@@ -70,3 +76,5 @@ runs:
               tag_name: ${{ inputs.release-tag }}
               draft: false
               prerelease: false
+              generate_release_notes: false
+              append_body: true
