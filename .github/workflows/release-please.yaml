@@ -64,7 +64,9 @@ jobs:
             - name: Set lowercase owner name
               id: owner-name
               run: |
-                  echo "OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+                  export OWNER=${{ github.repository_owner }}
+                  echo "OWNER_LC=${OWNER,,}" >> $GITHUB_ENV
+                  echo "Lowercase owner name: $OWNER_LC"
 
             - name: Build and push Docker image
               id: docker-build
