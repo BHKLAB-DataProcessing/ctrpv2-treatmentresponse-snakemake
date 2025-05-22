@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.5.0](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.4.0...v0.5.0) (2025-05-22)
+
+
+### Features
+
+* Add dry-run option to PharmacoSet pipeline and update workflow name for clarity ([768b07b](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/768b07b7649f5452c8ccc0ceff79c48be223a5e7))
+* Add run-pipeline action and update workflows for PharmacoSet pipeline execution ([d218e4e](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/d218e4e4ec733eec3fd18346d78a3a70697b7e68))
+* Enable dry run option in PharmacoSet pipeline workflow ([e079845](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/e0798450abb2da75defa2cb0483af8783739385a))
+* Enhance Docker build process with multi-platform support and improved caching ([e6f1fd5](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/e6f1fd5dc1a7f7af65d02831619172b829931394))
+
 ## [0.4.0](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.3.0...v0.4.0) (2025-05-22)
 
 
