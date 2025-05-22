@@ -43,4 +43,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: CTRP-TreatmentResponseExperiment
-          path: data/results/treatmentResponseExperiment.RDS
+          path: data/results/CTRPv2.0_treatmentResponseExperiment.RDS
