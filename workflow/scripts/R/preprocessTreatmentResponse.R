@@ -23,7 +23,7 @@ if (exists("snakemake")) {
         save.image()
 } else {
     # If the snakemake object does not exist, load the workspace
-    file.path("resources", "buildTreatmentResponseExperiment.RData") |>
+    file.path("resources", "preprocessTreatmentResponse.RData") |>
         load()
 }
 ####################################################################################
