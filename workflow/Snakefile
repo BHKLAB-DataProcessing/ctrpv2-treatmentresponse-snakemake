@@ -9,8 +9,8 @@ storage:
 
 rule all:
     input:
-        rawSampleMetadata = expand(
-            dmpdirs.METADATA / "CTRPv{release}_sampleMetadata.tsv",
+        tre = expand(
+            dmpdirs.RESULTS / "CTRPv{release}_treatmentResponseExperiment.RDS",
             release=config["treatmentResponse"]["rawdata"]["release"],
         ),
 
@@ -33,11 +33,35 @@ rule preprocessMetadata:
         rawTreatmentMetadata=dmpdirs.METADATA  / "CTRPv{release}_treatmentMetadata.tsv",
     log:
         dmpdirs.LOGS / "CTRPv{release}_preprocess_Metadata.log",
-    # container:
-    #     annotationGx_Docker,
     script:
         dmpdirs.SCRIPTS / "R" / "preprocessMetadata.R"
 
+
+rule preprocessTreatmentResponse:
+    input:
+        tr=dmpdirs.RAWDATA / "treatmentResponse" / "CTRPv{release}.zip",
+        treatmentMetadata=dmpdirs.METADATA / "CTRPv{release}_treatmentMetadata.tsv",
+        sampleMetadata=dmpdirs.METADATA / "CTRPv{release}_sampleMetadata.tsv",
+    output:
+        preprocessed_raw=dmpdirs.PROCDATA / "CTRPv{release}_preprocessed_TreatmentResponse_raw.csv",
+    log:
+        dmpdirs.LOGS / "{release}" / "preprocessTreatmentResponse.log",
+    script:
+        dmpdirs.SCRIPTS / "R" / "preprocessTreatmentResponse.R"
+
+rule buildTreatmentResponseExperiment:
+    input:
+        preprocessed_raw=dmpdirs.PROCDATA / "CTRPv{release}_preprocessed_TreatmentResponse_raw.csv",
+    output:
+        tre=dmpdirs.RESULTS / "CTRPv{release}_treatmentResponseExperiment.RDS",
+    log:
+        dmpdirs.LOGS / "{release}" / "buildTreatmentResponseExperiment.log",
+    threads: 
+        30
+    resources:
+        mem_mb = 50000
+    script:
+        dmpdirs.SCRIPTS / "R" / "buildTreatmentResponseExperiment.R"
 
 # rule buildTreatmentResponseExperiment:
 #     input:
