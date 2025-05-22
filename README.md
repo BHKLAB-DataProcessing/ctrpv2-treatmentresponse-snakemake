@@ -18,6 +18,15 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake?style=flat-square)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake?style=flat-square)
 
+## 📦 Download
+
+You can download the latest processed treatmentResponseExperiment here:
+
+➡️ [Download RDS File](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/releases/latest/download/CTRPv2.0_treatmentResponseExperiment.RDS)
+
+> [!NOTE]
+> If the file does not exist yet, look through the [releases](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/releases) to find a release that contains the file.
+
 ## Set Up
 
 ### Prerequisites
