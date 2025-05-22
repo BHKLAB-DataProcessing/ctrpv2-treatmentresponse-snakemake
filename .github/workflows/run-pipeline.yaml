@@ -26,4 +26,5 @@ jobs:
               with:
                   artifact-name: CTRP-TreatmentResponseExperiment
                   result-path: data/results/CTRPv2.0_treatmentResponseExperiment.RDS
+                  dryrun: true
 
