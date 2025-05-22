@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.6.3...v0.7.0) (2025-05-22)
+
+
+### Features
+
+* point to latest RDS file ([cc80345](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/cc80345bf2d85e49b905d759815d183b3a78b2c2))
+
+
+### Bug Fixes
+
+* enhance logging and improve data processing in treatment response script ([76291bc](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/76291bc2ff8f0638b891a1ce1c72facec859c777))
+
 ## [0.6.3](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.6.2...v0.6.3) (2025-05-22)
 
 
