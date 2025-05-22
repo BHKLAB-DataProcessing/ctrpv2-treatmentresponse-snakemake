@@ -1,0 +1,96 @@
+from damply import dirs as dmpdirs
+
+configfile: "config/pipeline.yaml"
+
+# CONTAINER = 'docker://ghcr.io/bhklab-dataprocessing/ccle-treatmentresponse-snakemake:16d5068'
+
+storage:
+    provider="http"
+
+rule all:
+    input:
+        rawSampleMetadata = expand(
+            dmpdirs.METADATA / "CTRPv{release}_sampleMetadata.tsv",
+            release=config["treatmentResponse"]["rawdata"]["release"],
+        ),
+
+rule download_data:
+    input:
+        storage.http(config["treatmentResponse"]["rawdata"]["url"]),
+    output:
+        dmpdirs.RAWDATA / "treatmentResponse" / "CTRPv{release}.zip",
+    shell:
+        """
+        mkdir -p $(dirname {output})
+        mv {input[0]} {output}
+        """
+
+rule preprocessMetadata:
+    input:
+        tr=dmpdirs.RAWDATA / "treatmentResponse" / "CTRPv{release}.zip",
+    output:
+        rawSampleMetadata=dmpdirs.METADATA  / "CTRPv{release}_sampleMetadata.tsv",
+        rawTreatmentMetadata=dmpdirs.METADATA  / "CTRPv{release}_treatmentMetadata.tsv",
+    log:
+        dmpdirs.LOGS / "CTRPv{release}_preprocess_Metadata.log",
+    # container:
+    #     annotationGx_Docker,
+    script:
+        dmpdirs.SCRIPTS / "R" / "preprocessMetadata.R"
+
+
+# rule buildTreatmentResponseExperiment:
+#     input:
+#         sampleMetadata = dmpdirs.METADATA / "sampleMetadata.tsv",
+#         treatmentMetadata = dmpdirs.METADATA / "treatmentMetadata.tsv",
+#         preprocessed_raw = dmpdirs.PROCDATA / "preprocessed_TreatmentResponse_raw.csv",
+#         preprocessed_profiles = dmpdirs.PROCDATA / "preprocessed_TreatmentResponse_profiles.csv",
+#     output:
+#         tre = dmpdirs.RESULTS / "treatmentResponseExperiment.RDS",
+#     log:
+#         dmpdirs.LOGS / "buildTreatmentResponseExperiment.log",
+#     container:
+#         CONTAINER
+#     threads:
+#         40
+#     script:
+#         dmpdirs.SCRIPTS / "R" / "buildTreatmentResponseExperiment.R"
+
+# rule preprocessMetadata:
+#     input:
+#         sampleAnnotation = storage.http(config["metadata"]["sampleAnnotation"]),
+#         treatmentAnnotation = storage.http(config["metadata"]["treatmentAnnotation"]),
+#     output:
+#         sampleMetadata = dmpdirs.METADATA / "sampleMetadata.tsv",
+#         treatmentMetadata = dmpdirs.METADATA / "treatmentMetadata.tsv",
+#     container:
+#         CONTAINER
+#     script:
+#         dmpdirs.SCRIPTS / "R" / "preprocessMetadata.R"
+
+
+# rule preprocessTreatmentResponse:
+#     input:
+#         rawdata = storage.http(config["treatmentResponse"]["rawdata"]["url"]),
+#     output:
+#         preprocessed_raw = dmpdirs.PROCDATA / "preprocessed_TreatmentResponse_raw.csv",
+#         preprocessed_profiles = dmpdirs.PROCDATA / "preprocessed_TreatmentResponse_profiles.csv",
+#     container:
+#         CONTAINER
+#     log:
+#         dmpdirs.LOGS / "preprocessTreatmentResponse.log",
+#     script:
+#         dmpdirs.SCRIPTS / "R" / "preprocessTreatmentResponse.R"
+
+
+# rule download_treatmentResponse_AND_metadata:
+#     input:
+#         lambda wc: HTTP.remote(
+#             treatmentResponse[wc.release]["url"],
+#         )
+#     output:
+#         tr = rawdata / "treatmentResponse" / "CTRPv{release}.zip" 
+#     shell:
+#         """
+#         mv {input[0]} {output.tr}
+#         """

@@ -1,16 +1,15 @@
 [workspace]
 name = "ctrpv2-treatmentresponse-snakemake"
-authors = [
-    "Jermiah Joseph <bhklab.jermiahjoseph@gmail.com>"
-]
+authors = ["Jermiah Joseph <bhklab.jermiahjoseph@gmail.com>"]
 description = "Pipeline to generate TreatmentResponseExperiment from raw data."
 license = "MIT"
 channels = ["conda-forge", "bioconda"]
-platforms = ["osx-arm64", "linux-64", "win-64", "osx-64"]
+platforms = ["linux-64"] # "osx-arm64","win-64", "osx-64"
 
 [environments]
 quality = { features = ["quality"], solve-group = "default" }
 docs = { features = ["docs"], solve-group = "default" }
+snakemake = { features = ["snakemake"], solve-group = "default" }
 
 [activation]
 # convenient variables which can be used in scripts
@@ -33,7 +32,14 @@ pip = "*"
 damply = ">=0.10.0, <0.11"
 
 [tasks]
-example_script = {cmd="python $SCRIPTS/example_script.py"}
+example_script = { cmd = "python $SCRIPTS/example_script.py" }
+
+[feature.snakemake.dependencies]
+snakemake = "*"
+snakemake-storage-plugin-http = "*"
+
+[feature.snakemake.tasks]
+pipeline = { cmd = "snakemake --cores all --use-apptainer", description = "Run snakemake pipeline" }
 
 ############################################## QUALITY ###############################################
 # Quality includes linting, type checking, and formatting
@@ -44,17 +50,14 @@ ruff = "*"
 ruff-check.cmd = ["ruff", "check"]
 ruff-check.inputs = ["config/ruff.toml", "workflow"]
 ruff-check.description = "Run ruff check"
-
 ruff-format.cmd = ["ruff", "format"]
 ruff-format.inputs = ["config/ruff.toml", "workflow"]
 ruff-format.depends-on = ["ruff-check"]
 ruff-format.description = "Run ruff format, run check first"
-
 qc.depends-on = ["ruff-format", "ruff-check"]
 qc.description = "Quality check: ruff check and format"
 
 ############################################## DOCS ################################################
-
 [feature.docs.dependencies]
 mkdocs = "*"
 mkdocs-include-markdown-plugin = ">=7.0.0,<8"
