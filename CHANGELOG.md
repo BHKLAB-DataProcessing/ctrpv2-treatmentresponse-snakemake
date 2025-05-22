@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.6.2...v0.6.3) (2025-05-22)
+
+
+### Bug Fixes
+
+* update container image and correct R script resource path ([ebdc9a6](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/ebdc9a6f70cdf062fae65b00d1b95279c00bf656))
+
 ## [0.6.2](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.6.1...v0.6.2) (2025-05-22)
 
 
