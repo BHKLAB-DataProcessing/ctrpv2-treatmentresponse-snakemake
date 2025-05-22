@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.6.1...v0.6.2) (2025-05-22)
+
+
+### Bug Fixes
+
+* streamline lowercase owner name extraction in workflow ([88b8d5d](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/88b8d5d82fa21925a7b2ce4e678ba7c2ff7ebc00))
+
 ## [0.6.1](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.6.0...v0.6.1) (2025-05-22)
 
 
