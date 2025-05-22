@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.6.0...v0.6.1) (2025-05-22)
+
+
+### Bug Fixes
+
+* owner name ([ef059ed](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/commit/ef059ed88e7cc4425c539970acf248c5277b9ee7))
+
 ## [0.6.0](https://github.com/BHKLAB-DataProcessing/ctrpv2-treatmentresponse-snakemake/compare/v0.5.0...v0.6.0) (2025-05-22)
 
 
