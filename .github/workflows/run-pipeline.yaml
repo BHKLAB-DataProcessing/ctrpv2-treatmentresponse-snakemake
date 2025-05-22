@@ -4,9 +4,10 @@ on:
     push:
         branches:
             - main
-            - "*"
-        tags:
-            - "v*.*"
+    pull_request:
+        branches:
+            - main
+    workflow_dispatch:
 
 permissions:
     contents: write
@@ -17,38 +18,12 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
-            - uses: eWaterCycle/setup-apptainer@v2
               with:
-                  apptainer-version: 1.3.6
-            # See https://github.com/apptainer/apptainer/pull/2262
-            - name: Disable apparmor namespace restrictions for apptainer (os='Linux')
-              if: runner.os == 'Linux'
-              run: |
-                  sudo sh -c 'echo kernel.apparmor_restrict_unprivileged_userns=0 \
-                      >/etc/sysctl.d/90-disable-userns-restrictions.conf'
-                  sudo sysctl -p /etc/sysctl.d/90-disable-userns-restrictions.conf
-            - name: Install Pixi
-              uses: prefix-dev/setup-pixi@v0.8.8
-              with:
-                  environments: "default"
-                  pixi-version: v0.47.0
-                  cache: true
-                  locked: true
-                  activate-environment: true
-            - name: Run Snakemake
-              run: |
-                  pixi run pipeline
+                  # Full history for tags
+                  fetch-depth: 0
 
-            - name: Upload assets as workflow artifact
-              uses: actions/upload-artifact@v4
+            - name: Run PharmacoSet Pipeline
+              uses: ./.github/actions/run-pipeline
               with:
-                  name: CTRP-TreatmentResponseExperiment
-                  path: data/results/CTRPv2.0_treatmentResponseExperiment.RDS
-
-            - name: Upload to GitHub Release
-              if: startsWith(github.ref, 'refs/tags/')
-              uses: softprops/action-gh-release@v2
-              with:
-                  files: data/results/CTRPv2.0_treatmentResponseExperiment.RDS
-                  draft: false
-                  prerelease: false
+                  artifact-name: CTRP-TreatmentResponseExperiment
+                  result-path: data/results/CTRPv2.0_treatmentResponseExperiment.RDS

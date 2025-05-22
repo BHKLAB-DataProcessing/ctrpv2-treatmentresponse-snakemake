@@ -15,9 +15,9 @@ permissions:
 jobs:
     release-please:
         runs-on: ubuntu-latest
-
-        concurrency:
-            group: ${{ github.workflow }}-${{ github.ref }}
+        outputs:
+            release_created: ${{ steps.release.outputs.release_created }}
+            tag_name: ${{ steps.release.outputs.tag_name }}
 
         steps:
             - uses: GoogleCloudPlatform/release-please-action@v4
@@ -25,6 +25,15 @@ jobs:
               with:
                   release-type: simple
 
+    build-docker:
+        needs: release-please
+        runs-on: ubuntu-latest
+        if: ${{ needs.release-please.outputs.release_created == 'true' }}
+
+        concurrency:
+            group: ${{ github.workflow }}-${{ github.ref }}-docker
+
+        steps:
             - name: Checkout source
               uses: actions/checkout@v4
               with:
@@ -36,43 +45,40 @@ jobs:
             - name: Log in to GitHub Container Registry
               uses: docker/login-action@v3
               with:
-                registry: ghcr.io
-                username: ${{ github.actor }}
-                password: ${{ secrets.GITHUB_TOKEN }}
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Extract metadata
-              id: meta
-              run: |
-                if [[ "${{ steps.release.outputs.release_created }}" == "true" ]]; then
-                # For release-based builds
-                echo "tag=${{ steps.release.outputs.tag_name }}" >> "$GITHUB_OUTPUT"
-                echo "use_latest=true" >> "$GITHUB_OUTPUT"
-                else
-                # For main branch push with no release
-                echo "tag=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
-                echo "use_latest=false" >> "$GITHUB_OUTPUT"
-                fi
-                echo "owner_lc=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
-
-            - name: Build and push with tag and latest
-              if: steps.meta.outputs.use_latest == 'true'
+            - name: Build and push Docker image
               uses: docker/build-push-action@v6
+              env:
+                  OWNER: ${{ github.repository_owner }}
               with:
-                context: .
-                file: ./Dockerfile
-                platforms: linux/amd64
-                push: true
-                tags: |
-                  ghcr.io/${{ steps.meta.outputs.owner_lc }}/${{ github.event.repository.name }}:${{ steps.meta.outputs.tag }}
-                  ghcr.io/${{ steps.meta.outputs.owner_lc }}/${{ github.event.repository.name }}:latest
+                  context: .
+                  file: ./Dockerfile
+                  platforms: linux/amd64
+                  push: true
+                  tags: |
+                      ghcr.io/${{ env.OWNER }}/${{ github.event.repository.name }}:${{ needs.release-please.outputs.tag_name }}
+                      ghcr.io/${{ env.OWNER }}/${{ github.event.repository.name }}:latest
 
-            - name: Build and push with commit ID
-              if: steps.meta.outputs.use_latest == 'false'
-              uses: docker/build-push-action@v6
+    run-pipeline:
+        needs: [release-please, build-docker]
+        runs-on: ubuntu-latest
+        if: ${{ needs.release-please.outputs.release_created == 'true' }}
+        
+        concurrency:
+            group: ${{ github.workflow }}-${{ github.ref }}-pipeline
+            
+        steps:
+            - name: Checkout source
+              uses: actions/checkout@v4
               with:
-                context: .
-                file: ./Dockerfile
-                platforms: linux/amd64
-                push: true
-                tags: |
-                  ghcr.io/${{ steps.meta.outputs.owner_lc }}/${{ github.event.repository.name }}:${{ steps.meta.outputs.tag }}
+                  ref: ${{ needs.release-please.outputs.tag_name }}
+              
+            - name: Run PharmacoSet Pipeline
+              uses: ./.github/actions/run-pipeline
+              with:
+                artifact-name: CTRP-TreatmentResponseExperiment
+                result-path: data/results/CTRPv2.0_treatmentResponseExperiment.RDS
+                release-tag: ${{ needs.release-please.outputs.tag_name }}
