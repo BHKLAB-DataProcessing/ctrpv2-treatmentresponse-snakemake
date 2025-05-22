@@ -1,74 +1,95 @@
 # Data Sources
 
-## Overview
+## Cancer Therapeutics Response Portal (CTRP) Dataset
 
-This section should document all data sources used in your project.
-Proper documentation ensures reproducibility and helps others
-understand your research methodology.
+### Overview
 
-## How to Document Your Data
+The Cancer Therapeutics Response Portal (CTRP) is a public resource providing information about the response of cancer cell lines to small-molecule probes and drugs. This project focuses specifically on CTRPv2.0, which includes a comprehensive dataset of drug sensitivity measurements across numerous cancer cell lines.
 
-For each data source, include the following information:
+### External Data Sources
 
-### 1. External Data Sources
+#### Cell Line Information
 
-- **Name**: Official name of the dataset
-- **Version/Date**: Version number or access date
-- **URL**: Link to the data source
-- **Access Method**: How the data was obtained (direct download, API, etc.)
-- **Access Date**: When the data was accessed/retrieved
-- **Data Format**: Format of the data (FASTQ, DICOM, CSV, etc.)
-- **Citation**: Proper academic citation if applicable
-- **License**: Usage restrictions and attribution requirements
+- **Name**: CTRP Cell Line Information
+- **Version/Date**: CTRPv2.0
+- **URL**: https://ctd2-data.nci.nih.gov/Public/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/
+- **Access Method**: Direct download
+- **Data Format**: Tab-separated values (TSV)
+- **Citation**: Seashore-Ludlow, B., Rees, M.G., Cheah, J.H., et al. (2015). Harnessing Connectivity in a Large-Scale Small-Molecule Sensitivity Dataset. Cancer Discovery, 5(11), 1210-1223. https://doi.org/10.1158/2159-8290.CD-15-0235
+- **License**: [CTD² Data Portal Terms of Use](https://ctd2-data.nci.nih.gov/Public/termsofuse/)
 
-Example:
+#### Treatment Information
 
-```markdown
-## TCGA RNA-Seq Data
+- **Name**: CTRP Compound Information
+- **Version/Date**: CTRPv2.0
+- **URL**: https://ctd2-data.nci.nih.gov/Public/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/
+- **Access Method**: Direct download
+- **Data Format**: Tab-separated values (TSV)
+- **Citation**: Same as cell line information
+- **License**: [CTD² Data Portal Terms of Use](https://ctd2-data.nci.nih.gov/Public/termsofuse/)
 
-- **Name**: The Cancer Genome Atlas RNA-Seq Data
-- **Version**: Data release 28.0 - March 2021
-- **URL**: https://portal.gdc.cancer.gov/
-- **Access Method**: GDC Data Transfer Tool
-- **Access Date**: 2021-03-15
-- **Citation**: The Cancer Genome Atlas Network. (2012). Comprehensive molecular portraits of human breast tumours. Nature, 490(7418), 61-70.
-- **License**: [NIH Genomic Data Sharing Policy](https://sharing.nih.gov/genomic-data-sharing-policy)
-```
+#### Drug Response Data
 
-### 2. Internal/Generated Data
+- **Name**: CTRP Drug Sensitivity Data
+- **Version/Date**: CTRPv2.0
+- **URL**: https://ctd2-data.nci.nih.gov/Public/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/
+- **Access Method**: Direct download
+- **Data Format**: Tab-separated values (TSV)
+- **Citation**: Same as cell line information
+- **License**: [CTD² Data Portal Terms of Use](https://ctd2-data.nci.nih.gov/Public/termsofuse/)
 
-- **Name**: Descriptive name of the dataset
-- **Creation Date**: When the data was generated
-- **Creation Method**: Brief description of how the data was created
-- **Input Data**: What source data was used
-- **Processing Scripts**: References to scripts/Github Repo used to generate this data
+### Processed Data
 
-Example:
+#### Sample Metadata (CTRPv2.0_sampleMetadata.tsv)
 
-```markdown
-## Processed RNA-Seq Data
-- **Name**: Processed RNA-Seq Data for TCGA-BRCA
-- **Creation Date**: 2021-04-01
-- **Creation Method**: Processed using kallisto and DESeq2
-- **Input Data**: FASTQ Data obtained from the SRA database
-- **Processing Scripts**: [GitHub Repo](https://github.com/tcga-brca-rnaseq)
-```
+- **Name**: Preprocessed Sample Metadata
+- **Input Data**: CTRP Cell Line Information
+- **Processing Scripts**: `workflow/scripts/R/preprocessMetadata.R`
+- **Output Location**: `metadata/CTRPv2.0_sampleMetadata.tsv`
 
-### 3. Data Dictionary
+| Column Name         | Description                         | Example Values                                    |
+| ------------------- | ----------------------------------- | ------------------------------------------------- |
+| sampleid            | Unique identifier for the cell line | 697, 5637, 2313287                                |
+| tissueid            | Tissue of origin                    | haematopoietic_and_lymphoid_tissue, urinary_tract |
+| master_ccl_id       | Master cell line identifier         | 1, 3, 4                                           |
+| sample_availability | Where the sample is available       | ccle;public, ccle                                 |
+| ccle_primary_hist   | Primary histology                   | lymphoid_neoplasm, carcinoma, glioma              |
 
-For complex datasets, include a data dictionary that explains:
+#### Treatment Metadata (CTRPv2.0_treatmentMetadata.tsv)
 
-| Column Name | Data Type | Description | Units | Possible Values |
-|-------------|-----------|-------------|-------|-----------------|
-| patient_id  | string    | Unique patient identifier | N/A | TCGA-XX-XXXX format |
-| age         | integer   | Patient age at diagnosis | years | 18-100 |
-| expression  | float     | Gene expression value | TPM | Any positive value |
+- **Name**: Preprocessed Treatment Metadata
+- **Input Data**: CTRP Compound Information
+- **Processing Scripts**: `workflow/scripts/R/preprocessMetadata.R`
+- **Output Location**: `metadata/CTRPv2.0_treatmentMetadata.tsv`
 
-## Best Practices
+| Column Name                    | Description                          | Example Values                                  |
+| ------------------------------ | ------------------------------------ | ----------------------------------------------- |
+| master_cpd_id                  | Master compound identifier           | 1788, 3588, 12877                               |
+| cpd_name                       | Compound name                        | CIL55, BRD4132, BRD6340                         |
+| broad_cpd_id                   | Broad Institute compound identifier  | BRD-K46556387, BRD-K86574132, BRD-K35716340     |
+| top_test_conc_umol             | Top test concentration in μM         | 10, 160, 33                                     |
+| cpd_status                     | Compound status (probe, FDA)         | probe, FDA                                      |
+| inclusion_rationale            | Rationale for inclusion in the study | pilot-set, chromatin;pilot-set                  |
+| gene_symbol_of_protein_target  | Gene symbol for protein target       | S1PR3, BAX, RARA;RARB;RARG                      |
+| target_or_activity_of_compound | Target or activity description       | agonist of sphingosine 1-phosphate receptor 3   |
+| source_name                    | Source of the compound               | Columbia University, ChemDiv Inc., Enamine Ltd. |
+| source_catalog_id              | Catalog identifier from source       | 4998-1380, 1988-0090                            |
+| cpd_smiles                     | SMILES chemical notation             | Chemical structure in SMILES format             |
+| treatmentid                    | Standardized treatment ID            | CIL55, BRD4132, BRD6340                         |
 
-- Store raw data in `data/rawdata/` and never modify it
-- Store processed data in `data/procdata/` and all code used to generate it should be in `workflow/scripts/`
-- Document all processing steps
-- Track data provenance (where data came from and how it was modified)
-- Respect data usage agreements and licenses!
-    This is especially important for data that should not be shared publicly
+#### Treatment Response: Raw
+
+- **Name**: Preprocessed Raw Treatment Response
+- **Input Data**: CTRP Drug Sensitivity Data
+- **Processing Scripts**: `workflow/scripts/R/preprocessTreatmentResponse.R`
+- **Output Location**: `data/procdata/CTRPv2.0_preprocessed_TreatmentResponse_raw.csv`
+
+| Column Name   | Description                  | Units/Notes                            |
+| ------------- | ---------------------------- | -------------------------------------- |
+| sampleid      | Cell line identifier         | Same as `sampleid` in metadata         |
+| culture_media | Culture media used           | DMEM001, RPMI001, etc.                 |
+| treatmentid   | Drug identifier              | Same as `treatmentid` in metadata      |
+| experiment_id | Experiment identifier        | Numerical identifier for experiment    |
+| dose          | Drug concentration           | μM (micromolar)                        |
+| viability     | Cell viability at given dose | Percentage, values relative to control |
+| tech_rep      | Technical replicate number   | 1, 2, 3, etc.                          |
