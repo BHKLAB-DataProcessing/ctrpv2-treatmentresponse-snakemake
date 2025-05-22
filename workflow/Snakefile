@@ -2,7 +2,7 @@ from damply import dirs as dmpdirs
 
 configfile: "config/pipeline.yaml"
 
-# CONTAINER = 'docker://ghcr.io/bhklab-dataprocessing/ccle-treatmentresponse-snakemake:16d5068'
+CONTAINER = 'docker://ghcr.io/bhklab-dataprocessing/ctrp-treatmentresponse-snakemake:latest'
 
 storage:
     provider="http"
@@ -31,6 +31,8 @@ rule preprocessMetadata:
     output:
         rawSampleMetadata=dmpdirs.METADATA  / "CTRPv{release}_sampleMetadata.tsv",
         rawTreatmentMetadata=dmpdirs.METADATA  / "CTRPv{release}_treatmentMetadata.tsv",
+    container:
+        CONTAINER
     log:
         dmpdirs.LOGS / "CTRPv{release}_preprocess_Metadata.log",
     script:
@@ -42,6 +44,8 @@ rule preprocessTreatmentResponse:
         tr=dmpdirs.RAWDATA / "treatmentResponse" / "CTRPv{release}.zip",
         treatmentMetadata=dmpdirs.METADATA / "CTRPv{release}_treatmentMetadata.tsv",
         sampleMetadata=dmpdirs.METADATA / "CTRPv{release}_sampleMetadata.tsv",
+    container:
+        CONTAINER
     output:
         preprocessed_raw=dmpdirs.PROCDATA / "CTRPv{release}_preprocessed_TreatmentResponse_raw.csv",
     log:
@@ -56,6 +60,8 @@ rule buildTreatmentResponseExperiment:
         tre=dmpdirs.RESULTS / "CTRPv{release}_treatmentResponseExperiment.RDS",
     log:
         dmpdirs.LOGS / "{release}" / "buildTreatmentResponseExperiment.log",
+    container:
+        CONTAINER
     threads: 
         30
     resources:

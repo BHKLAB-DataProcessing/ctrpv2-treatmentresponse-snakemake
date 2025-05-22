@@ -1,0 +1,46 @@
+name: Run Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - "*"
+    tags:
+      - "v*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  Run-Pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: eWaterCycle/setup-apptainer@v2
+        with:
+          apptainer-version: 1.3.6
+      # See https://github.com/apptainer/apptainer/pull/2262
+      - name: Disable apparmor namespace restrictions for apptainer (os='Linux')
+        if: runner.os == 'Linux'
+        run: |
+          sudo sh -c 'echo kernel.apparmor_restrict_unprivileged_userns=0 \
+              >/etc/sysctl.d/90-disable-userns-restrictions.conf'
+          sudo sysctl -p /etc/sysctl.d/90-disable-userns-restrictions.conf
+      - name: Install Pixi
+        uses: prefix-dev/setup-pixi@v0.8.8
+        with:
+          environments: "default"
+          pixi-version: v0.47.0
+          cache: true
+          locked: true
+          activate-environment: true
+      - name: Run Snakemake
+        run: |
+          pixi run pipeline
+
+      - name: Upload assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: CTRP-TreatmentResponseExperiment
+          path: data/results/treatmentResponseExperiment.RDS

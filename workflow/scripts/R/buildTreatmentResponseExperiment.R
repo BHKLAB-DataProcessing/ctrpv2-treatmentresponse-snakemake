@@ -36,7 +36,45 @@ rawdt <- data.table::fread(
     fill = TRUE
 )
 
-print(rawdt)
+# -- Create a TREDataMapper
+print("Creating a TREDataMapper")
+treDataMapper <- CoreGx::TREDataMapper(rawdata = rawdt)
+
+CoreGx::rowDataMap(treDataMapper) <- list(
+    id_columns = c("treatmentid", "dose", "tech_rep"),
+    mapped_columns = c()
+)
+
+CoreGx::colDataMap(treDataMapper) <- list(
+    id_columns = c("sampleid", "culture_media"),
+    mapped_columns = c()
+)
+
+CoreGx::assayMap(treDataMapper) <- list(
+    raw = list(
+        id_columns = c("treatmentid", "dose", "tech_rep", "sampleid", "culture_media"),
+        mapped_columns = c("viability")
+    )
+)
 
 
-print(unique(rawdt$tech_rep))
+
+print("Running CoreGx::metaConstruct")
+(tre <- CoreGx::metaConstruct(treDataMapper))
+
+
+
+print("Endoaggregating to create mono_viability Assay")
+tre_sens <- tre |>
+    CoreGx::endoaggregate(
+        assay="raw",
+        target="sensitivity",  # create a new assay named mono_viability
+        mean_viability=pmin(100, mean(viability)), # pmin takes the minimum of two vectors element-wise # idk why the old script did this step...
+        by=c("treatmentid", "dose", "sampleid"),
+        nthread=THREADS
+    )
+
+saveRDS(
+    tre_sens,
+    file = OUTPUT$tre,
+)
