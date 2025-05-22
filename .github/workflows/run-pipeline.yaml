@@ -13,7 +13,7 @@ permissions:
     contents: write
 
 jobs:
-    Run-Pipeline:
+    Dry-Run-Pipeline:
         runs-on: ubuntu-latest
 
         steps:
