@@ -2,7 +2,7 @@ from damply import dirs as dmpdirs
 
 configfile: "config/pipeline.yaml"
 
-CONTAINER = 'docker://ghcr.io/bhklab-dataprocessing/ctrp-treatmentresponse-snakemake:latest'
+CONTAINER = 'docker://ghcr.io/bhklab-dataprocessing/ctrpv2-treatmentresponse-snakemake:latest'
 
 storage:
     provider="http"
