@@ -71,35 +71,36 @@ tre_sens <- tre |>
         nthread = THREADS
     )
 
-print("Endoaggregating to create profiles_recomputed Assay")
-tre_fit <- tre_sens |> CoreGx::endoaggregate(
-    { # the entire code block is evaluated for each group in our group by
-        # 1. fit a log logistic curve over the dose range
-        fit <- PharmacoGx::logLogisticRegression(dose, mean_viability,
-            viability_as_pct = TRUE
-        )
-        # 2. compute curve summary metrics
-        ic50 <- PharmacoGx::computeIC50(dose, Hill_fit = fit)
-        aac <- PharmacoGx::computeAUC(dose, Hill_fit = fit)
-        # 3. assemble the results into a list, each item will become a
-        #   column in the target assay.
-        list(
-            HS = fit[["HS"]],
-            E_inf = fit[["E_inf"]],
-            EC50 = fit[["EC50"]],
-            Rsq = as.numeric(unlist(attributes(fit))),
-            aac_recomputed = aac,
-            ic50_recomputed = ic50
-        )
-    },
-    assay = "sensitivity",
-    target = "recomputed_profiles", # create a new assay named profiles_recomputed
-    enlist = FALSE, # this option enables the use of a code block for aggregation
-    by = c("treatmentid", "sampleid"),
-    nthread = THREADS # parallelize over multiple cores to speed up the computation
-)
+# print("Endoaggregating to create profiles_recomputed Assay")
+# this takes too long!!!
+# tre_fit <- tre_sens |> CoreGx::endoaggregate(
+#     { # the entire code block is evaluated for each group in our group by
+#         # 1. fit a log logistic curve over the dose range
+#         fit <- PharmacoGx::logLogisticRegression(dose, mean_viability,
+#             viability_as_pct = TRUE
+#         )
+#         # 2. compute curve summary metrics
+#         ic50 <- PharmacoGx::computeIC50(dose, Hill_fit = fit)
+#         aac <- PharmacoGx::computeAUC(dose, Hill_fit = fit)
+#         # 3. assemble the results into a list, each item will become a
+#         #   column in the target assay.
+#         list(
+#             HS = fit[["HS"]],
+#             E_inf = fit[["E_inf"]],
+#             EC50 = fit[["EC50"]],
+#             Rsq = as.numeric(unlist(attributes(fit))),
+#             aac_recomputed = aac,
+#             ic50_recomputed = ic50
+#         )
+#     },
+#     assay = "sensitivity",
+#     target = "recomputed_profiles", # create a new assay named profiles_recomputed
+#     enlist = FALSE, # this option enables the use of a code block for aggregation
+#     by = c("treatmentid", "sampleid"),
+#     nthread = THREADS # parallelize over multiple cores to speed up the computation
+# )
 
 saveRDS(
-    tre_fit,
+    tre_sens,
     file = OUTPUT$tre,
 )
